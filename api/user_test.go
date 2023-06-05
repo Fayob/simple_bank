@@ -208,8 +208,8 @@ func randomUser(t *testing.T) (user db.User, password string) {
 		Username: util.RandomOwner(),
 		FullName: util.RandomString(6),
 		Email: util.RandomEmail(),
-		PasswordChangedAt: time.Now().Round(0),
-		CreatedAt: time.Now().Truncate(0),
+		PasswordChangedAt: time.Now().Round(0).Local(),
+		CreatedAt: time.Now().Truncate(0).Local(),
 	}, hashedPassword
 }
 
