@@ -47,5 +47,5 @@ jobs:
           kubectl apply -f eks/aws-auth.yaml
           kubectl apply -f eks/deployment.yaml
           kubectl apply -f eks/service.yaml
-          kubectl apply -f eks/ingress.yaml
+          # kubectl apply -f eks/ingress.yaml
           
