@@ -1,190 +1,172 @@
-[![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/golang-migrate/migrate/ci.yaml?branch=master)](https://github.com/golang-migrate/migrate/actions/workflows/ci.yaml?query=branch%3Amaster)
-[![GoDoc](https://pkg.go.dev/badge/github.com/golang-migrate/migrate)](https://pkg.go.dev/github.com/golang-migrate/migrate/v4)
-[![Coverage Status](https://img.shields.io/coveralls/github/golang-migrate/migrate/master.svg)](https://coveralls.io/github/golang-migrate/migrate?branch=master)
-[![packagecloud.io](https://img.shields.io/badge/deb-packagecloud.io-844fec.svg)](https://packagecloud.io/golang-migrate/migrate?filter=debs)
-[![Docker Pulls](https://img.shields.io/docker/pulls/migrate/migrate.svg)](https://hub.docker.com/r/migrate/migrate/)
-![Supported Go Versions](https://img.shields.io/badge/Go-1.19%2C%201.20-lightgrey.svg)
-[![GitHub Release](https://img.shields.io/github/release/golang-migrate/migrate.svg)](https://github.com/golang-migrate/migrate/releases)
-[![Go Report Card](https://goreportcard.com/badge/github.com/golang-migrate/migrate/v4)](https://goreportcard.com/report/github.com/golang-migrate/migrate/v4)
+<a id="readme-top"></a>
+<div align="center">
+  <h3><b>SIMPLE BANK API README</b></h3>
+</div>
 
-# migrate
+# 📗 Table of Contents
 
-__Database migrations written in Go. Use as [CLI](#cli-usage) or import as [library](#use-in-your-go-project).__
+- [📖 About the Project](#about-project)
+  - [🛠 Built With](#built-with)
+    - [Tech Stack](#tech-stack)
+    - [Key Features](#key-features)
+  - [🚀 Live Demo](#live-demo)
+- [💻 Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Setup](#setup)
+  - [Install](#install)
+  - [Usage](#usage)
+  - [Run tests](#run-tests)
+- [👥 Authors](#authors)
+- [🔭 Future Features](#future-features)
+- [🤝 Contributing](#contributing)
+- [⭐️ Show your support](#support)
+- [🙏 Acknowledgements](#acknowledgements)
+- [❓ FAQ (OPTIONAL)](#faq)
+- [📝 License](#license)
 
-* Migrate reads migrations from [sources](#migration-sources)
-   and applies them in correct order to a [database](#databases).
-* Drivers are "dumb", migrate glues everything together and makes sure the logic is bulletproof.
-   (Keeps the drivers lightweight, too.)
-* Database drivers don't assume things or try to correct user input. When in doubt, fail.
+# 📖 BOOKING_APP <a id="about-project"></a>
 
-Forked from [mattes/migrate](https://github.com/mattes/migrate)
+**Simple Bank** is an API that allows users to make transactions. Users can create bank accounts in different currencies, and make transaction to another account from their own account..
 
-## Databases
+## 🛠 Built With <a id="built-with"></a>
 
-Database drivers run migrations. [Add a new database?](database/driver.go)
+### Tech Stack <a id="tech-stack"></a>
 
-* [PostgreSQL](database/postgres)
-* [PGX v4](database/pgx)
-* [PGX v5](database/pgx/v5)
-* [Redshift](database/redshift)
-* [Ql](database/ql)
-* [Cassandra](database/cassandra)
-* [SQLite](database/sqlite)
-* [SQLite3](database/sqlite3) ([todo #165](https://github.com/mattes/migrate/issues/165))
-* [SQLCipher](database/sqlcipher)
-* [MySQL/ MariaDB](database/mysql)
-* [Neo4j](database/neo4j)
-* [MongoDB](database/mongodb)
-* [CrateDB](database/crate) ([todo #170](https://github.com/mattes/migrate/issues/170))
-* [Shell](database/shell) ([todo #171](https://github.com/mattes/migrate/issues/171))
-* [Google Cloud Spanner](database/spanner)
-* [CockroachDB](database/cockroachdb)
-* [YugabyteDB](database/yugabytedb)
-* [ClickHouse](database/clickhouse)
-* [Firebird](database/firebird)
-* [MS SQL Server](database/sqlserver)
+<details>
+  <summary>Server</summary>
+  <ul>
+    <li><a href="https://go.dev/"> Go </a></li>
+    <li><a href="https://www.docker.com/"> Docker </a></li>
+    <li><a href="https://kubernetes.io/"> Kubernetes </a></li>
+  </ul>
+</details>
 
-### Database URLs
+<details>
+<summary>Database</summary>
+  <ul>
+    <li><a href="https://www.postgresql.org/">PostgreSQL</a></li>
+  </ul>
+</details>
 
-Database connection strings are specified via URLs. The URL format is driver dependent but generally has the form: `dbdriver://username:password@host:port/dbname?param1=true&param2=false`
+### Key Features <a id="key-features"></a>
 
-Any [reserved URL characters](https://en.wikipedia.org/wiki/Percent-encoding#Percent-encoding_reserved_characters) need to be escaped. Note, the `%` character also [needs to be escaped](https://en.wikipedia.org/wiki/Percent-encoding#Percent-encoding_the_percent_character)
+- Create a bank account
+- User will be able make transactions to other accounts
+- User will be able to create and use EUR, USD, and CAD Currencies
 
-Explicitly, the following characters need to be escaped:
-`!`, `#`, `$`, `%`, `&`, `'`, `(`, `)`, `*`, `+`, `,`, `/`, `:`, `;`, `=`, `?`, `@`, `[`, `]`
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<!-- 
+### Live Demo <a id="live-demo"></a>
 
-It's easiest to always run the URL parts of your DB connection URL (e.g. username, password, etc) through an URL encoder. See the example Python snippets below:
+[checkout the live demo here](https://booking-app-7i9f.onrender.com)
 
-```bash
-$ python3 -c 'import urllib.parse; print(urllib.parse.quote(input("String to encode: "), ""))'
-String to encode: FAKEpassword!#$%&'()*+,/:;=?@[]
-FAKEpassword%21%23%24%25%26%27%28%29%2A%2B%2C%2F%3A%3B%3D%3F%40%5B%5D
-$ python2 -c 'import urllib; print urllib.quote(raw_input("String to encode: "), "")'
-String to encode: FAKEpassword!#$%&'()*+,/:;=?@[]
-FAKEpassword%21%23%24%25%26%27%28%29%2A%2B%2C%2F%3A%3B%3D%3F%40%5B%5D
-$
+<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
+
+## 💻 Getting Started <a id="getting-started"></a>
+
+To get a local copy up and running, follow these steps.
+
+### Prerequisites
+
+In order to run this project you need:
+
+- A text editor preferably [Visual Studio code](https://code.visualstudio.com/)
+- Latest version of [GO](https://go.dev/doc/install) installed
+- [PostgreSQL Server](https://www.postgresql.org/download/)
+
+
+### Setup
+
+Clone this [repository](https://github.com/Fayob/simple_bank) to your desired folder:
+
+```sh
+  cd my-folder
+  git clone git@github.com:Fayob/simple_bank.git
+  cd simple_bank
 ```
 
-## Migration Sources
+### Install
 
-Source drivers read migrations from local or remote sources. [Add a new source?](source/driver.go)
+Install this project with:
 
-* [Filesystem](source/file) - read from filesystem
-* [io/fs](source/iofs) - read from a Go [io/fs](https://pkg.go.dev/io/fs#FS)
-* [Go-Bindata](source/go_bindata) - read from embedded binary data ([jteeuwen/go-bindata](https://github.com/jteeuwen/go-bindata))
-* [pkger](source/pkger) - read from embedded binary data ([markbates/pkger](https://github.com/markbates/pkger))
-* [GitHub](source/github) - read from remote GitHub repositories
-* [GitHub Enterprise](source/github_ee) - read from remote GitHub Enterprise repositories
-* [Bitbucket](source/bitbucket) - read from remote Bitbucket repositories
-* [Gitlab](source/gitlab) - read from remote Gitlab repositories
-* [AWS S3](source/aws_s3) - read from Amazon Web Services S3
-* [Google Cloud Storage](source/google_cloud_storage) - read from Google Cloud Platform Storage
-
-## CLI usage
-
-* Simple wrapper around this library.
-* Handles ctrl+c (SIGINT) gracefully.
-* No config search paths, no config files, no magic ENV var injections.
-
-__[CLI Documentation](cmd/migrate)__
-
-### Basic usage
-
-```bash
-$ migrate -source file://path/to/migrations -database postgres://localhost:5432/database up 2
+```sh
+  go mod tidy
+  make postgres
+  make createdb
+  make migrateup
 ```
 
-### Docker usage
+### Usage
 
-```bash
-$ docker run -v {{ migration dir }}:/migrations --network host migrate/migrate
-    -path=/migrations/ -database postgres://localhost:5432/database up 2
+To spin up the server, execute the following command in your terminal:
+
+```sh
+  go run main.go
 ```
 
-## Use in your Go project
+### Run tests
 
-* API is stable and frozen for this release (v3 & v4).
-* Uses [Go modules](https://golang.org/cmd/go/#hdr-Modules__module_versions__and_more) to manage dependencies.
-* To help prevent database corruptions, it supports graceful stops via `GracefulStop chan bool`.
-* Bring your own logger.
-* Uses `io.Reader` streams internally for low memory overhead.
-* Thread-safe and no goroutine leaks.
+To run tests, run the following command:
 
-__[Go Documentation](https://pkg.go.dev/github.com/golang-migrate/migrate/v4)__
-
-```go
-import (
-    "github.com/golang-migrate/migrate/v4"
-    _ "github.com/golang-migrate/migrate/v4/database/postgres"
-    _ "github.com/golang-migrate/migrate/v4/source/github"
-)
-
-func main() {
-    m, err := migrate.New(
-        "github://mattes:personal-access-token@mattes/migrate_test",
-        "postgres://localhost:5432/database?sslmode=enable")
-    m.Steps(2)
-}
+```sh
+  go test
 ```
 
-Want to use an existing database client?
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-```go
-import (
-    "database/sql"
-    _ "github.com/lib/pq"
-    "github.com/golang-migrate/migrate/v4"
-    "github.com/golang-migrate/migrate/v4/database/postgres"
-    _ "github.com/golang-migrate/migrate/v4/source/file"
-)
 
-func main() {
-    db, err := sql.Open("postgres", "postgres://localhost:5432/database?sslmode=enable")
-    driver, err := postgres.WithInstance(db, &postgres.Config{})
-    m, err := migrate.NewWithDatabaseInstance(
-        "file:///migrations",
-        "postgres", driver)
-    m.Up() // or m.Step(2) if you want to explicitly set the number of migrations to run
-}
-```
+## 👥 Authors <a id="authors"></a>
 
-## Getting started
+👤 **Abimbola Favour**
 
-Go to [getting started](GETTING_STARTED.md)
+- GitHub: [@fayob](https://github.com/fayob)
+- Twitter: [@fabimworld](https://twitter.com/Fabimworld2536)
+- LinkedIn: [abimbola-ade](http://linkedin.com/in/abimbola-ade/)
 
-## Tutorials
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-* [CockroachDB](database/cockroachdb/TUTORIAL.md)
-* [PostgreSQL](database/postgres/TUTORIAL.md)
+<!-- ## 🔭 Future Features <a id="future-features"></a>
 
-(more tutorials to come)
+- [ ] Add an authorization to all routes
+- [ ] Add an admin role to manage the creation and deletion of coaches
+- [ ] Add more features like notifying the coach after booking and be able to accept or reject the booking
 
-## Migration files
+<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
-Each migration has an up and down migration. [Why?](FAQ.md#why-two-separate-files-up-and-down-for-a-migration)
+## 🤝 Contributing <a id="contributing"></a>
 
-```bash
-1481574547_create_users_table.up.sql
-1481574547_create_users_table.down.sql
-```
+Contributions, issues, and feature requests are welcome!
 
-[Best practices: How to write migrations.](MIGRATIONS.md)
+Feel free to check the [issues page](../../issues/).
 
-## Versions
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-Version | Supported? | Import | Notes
---------|------------|--------|------
-**master** | :white_check_mark: | `import "github.com/golang-migrate/migrate/v4"` | New features and bug fixes arrive here first |
-**v4** | :white_check_mark: | `import "github.com/golang-migrate/migrate/v4"` | Used for stable releases |
-**v3** | :x: | `import "github.com/golang-migrate/migrate"` (with package manager) or `import "gopkg.in/golang-migrate/migrate.v3"` (not recommended) | **DO NOT USE** - No longer supported |
 
-## Development and Contributing
+## ⭐️ Show your support <a id="support"></a>
 
-Yes, please! [`Makefile`](Makefile) is your friend,
-read the [development guide](CONTRIBUTING.md).
+If you like this project, please leave a star 😁
 
-Also have a look at the [FAQ](FAQ.md).
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
----
+<!-- ## 🙏 Acknowledgments <a id="acknowledgements"></a>
 
-Looking for alternatives? [https://awesome-go.com/#database](https://awesome-go.com/#database).
+<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
+
+
+## ❓ FAQ (OPTIONAL) <a id="faq"></a>
+
+- **Can I reuse this code?**
+
+  - Yes, feel free to fork it
+
+- **Do I need knowledge of GO to use this project?**
+
+  - No you do not.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## 📝 License <a id="license"></a>
+
+This project is [MIT](./LICENSE) licensed.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
