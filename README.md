@@ -50,9 +50,9 @@
 
 ### Key Features <a id="key-features"></a>
 
-- Create a bank account
-- User will be able make transactions to other accounts
-- User will be able to create and use EUR, USD, and CAD Currencies
+- Create and manage account
+- Record all balance changes
+- Money transfer transaction
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 <!-- 
