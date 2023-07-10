@@ -24,9 +24,9 @@
 - [❓ FAQ (OPTIONAL)](#faq)
 - [📝 License](#license)
 
-# 📖 BOOKING_APP <a id="about-project"></a>
+# 📖 SIMPLE BANK <a id="about-project"></a>
 
-**Simple Bank** is an API that allows users to make transactions. Users can create bank accounts in different currencies, and make transaction to another account from their own account..
+**Simple Bank** is an API that allows users to make transactions. Users can create bank accounts in different currencies, and make transaction to another account from their own account.
 
 ## 🛠 Built With <a id="built-with"></a>
 
