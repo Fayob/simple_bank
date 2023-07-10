@@ -109,6 +109,12 @@ To spin up the server, execute the following command in your terminal:
 To run tests, run the following command:
 
 ```sh
+  make test
+```
+
+OR
+
+```go
   go test
 ```
 
